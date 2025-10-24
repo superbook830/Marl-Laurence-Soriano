@@ -2,7 +2,7 @@ class WatermarkPlugin {
   apply(videoElement) {
     let watermark = document.createElement("div");
     watermark.id = "watermark-overlay";
-    watermark.textContent = "Modular Media Streaming Suite";
+    watermark.textContent = "MARL SORIANO MEDIA";
     watermark.style.position = "absolute";
     watermark.style.bottom = "10px";
     watermark.style.right = "20px";
