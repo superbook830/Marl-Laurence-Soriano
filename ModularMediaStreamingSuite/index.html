@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modular Media Streaming Suite</title>
+    <link rel="stylesheet" href="style/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app-wrapper" class="app-wrapper">
+        <header class="app-header">
+            <h1 class="main-title">
+                <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10" /> 
+    <polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none" /> 
+</svg>
+                Modular Media Streaming Suite
+            </h1>
+        </header>
+
+        <main class="main-grid">
+            <div id="player-column" class="player-column">
+                <div id="player-container" class="player-container">
+                    <video id="mediaPlayer" controls 
+                            class="media-player"
+                            poster="https://placehold.co/1280x720/1f2937/9ca3af?text=Media+Playback+Area">
+                    </video>
+                </div>
+            </div>
+
+            <div id="controls-panel" class="controls-panel">
+                <h2 class="panel-title">Media Source</h2>
+                <div class="control-group source-controls">
+                    <button id="btnLocal" data-source="local" class="btn-source">Play Local File</button>
+                    <button id="btnHLS" data-source="hls" class="btn-source">Stream HLS</button>
+                    <button id="btnAPI" data-source="remote" class="btn-source">Remote API</button>
+                </div>
+
+                <h2 class="panel-title">Playback Settings</h2>
+                <div class="control-group renderer-settings">
+                    <label for="rendererSelect" class="setting-label">Renderer:</label>
+                    <select id="rendererSelect" class="form-select">
+                        <option value="hardware">Hardware</option>
+                        <option value="software">Software</option>
+                    </select>
+                </div>
+
+                <h2 class="panel-title">Playlists</h2>
+                <div class="control-group playlist-group">
+                    <div id="playlistContainer" class="playlist-list"></div>
+                </div>
+
+                <h2 class="panel-title">Module Toggles</h2>
+                <div class="control-group plugin-toggles">
+                    <label class="checkbox-label"><input type="checkbox" id="subtitles"> Subtitles Module</label>
+                    <label class="checkbox-label"><input type="checkbox" id="equalizer"> Equalizer FX</label>
+                    <label class="checkbox-label"><input type="checkbox" id="watermark"> Watermark Overlay</label>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="facade.js"></script>
+    <script src="renderer/Renderer.js"></script>
+    <script src="renderer/HardwareRenderer.js"></script>
+    <script src="renderer/SoftwareRenderer.js"></script>
+    <script src="sources/LocalSource.js"></script>
+    <script src="sources/HLSSource.js"></script>
+    <script src="sources/ProxySource.js"></script>
+    <script src="sources/RemoteAPISource.js"></script>
+    <script src="plugins/PluginManager.js"></script>
+    <script src="plugins/SubtitlePlugin.js"></script>
+    <script src="plugins/EqualizerPlugin.js"></script>
+    <script src="plugins/WatermarkPlugin.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="app.js"></script>
+</body>
+</html>

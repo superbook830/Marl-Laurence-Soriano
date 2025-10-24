@@ -1,0 +1,454 @@
+/* -------------------------------------------
+    SECTION 1: GLOBAL RESETS AND VARIABLES (CLEAN CANVAS)
+------------------------------------------- */
+
+/* GLOBAL BOX-SIZING RESET */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Color Palette and Variables - REVISED for CLEAN CANVAS / LIME GREEN */
+:root {
+    --font-family: 'Inter', sans-serif;
+    --bg-light: #F8F8F8; /* Very light gray/off-white background */
+    --card-light: #FFFFFF; /* Pure white for panels */
+    --border-light: #E0E0E0; /* Light gray for borders */
+    --text-dark: #333333; /* Dark gray for primary text */
+    --text-muted: #707070; /* Muted gray for secondary text */
+    --text-placeholder: #B0B0B0; /* Even lighter gray for placeholders */
+
+    --accent-primary: #7FFF00; /* Primary bright accent: Chartreuse/Lime Green */
+    --accent-secondary: #5CB800; /* Slightly darker green for depth/hover */
+    --accent-tertiary: #A3FF47; /* Lighter green for subtle glow */
+
+    --shadow-light: rgba(0, 0, 0, 0.08); /* Subtle shadow for elevation */
+    --shadow-hover: rgba(127, 255, 0, 0.2); /* Green glow for hover */
+    
+    --padding-main: 2rem; 
+    --radius-main: 0.5rem; /* Softened corners */
+    --radius-small: 0.25rem;
+}
+
+/* Generative Pulsing Animation (Adapted for light theme) */
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 5px rgba(127, 255, 0, 0.4); opacity: 0.9; }
+    50% { box-shadow: 0 0 15px rgba(127, 255, 0, 0.6), 0 0 5px rgba(92, 184, 0, 0.3); opacity: 1; }
+    100% { box-shadow: 0 0 5px rgba(127, 255, 0, 0.4); opacity: 0.9; }
+}
+
+html { height: 100%; }
+
+body {
+    height: 100%;
+    min-height: 100vh;
+    font-family: var(--font-family);
+    background-color: var(--bg-light); 
+    color: var(--text-dark);
+    padding: var(--padding-main);
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease;
+    overflow-x: hidden;
+}
+
+/* -------------------------------------------
+    SECTION 3: LAYOUT AND GRID STRUCTURE (STACKED)
+------------------------------------------- */
+
+.app-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    height: 100%;
+    background-color: var(--bg-light);
+}
+
+.main-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; 
+    flex-grow: 1;
+    min-height: 0;
+}
+
+.player-column { 
+    flex-shrink: 0;
+    width: 100%;
+}
+
+@media (min-width: 1024px) {
+    .player-column {
+        max-width: 1200px; 
+        margin: 0 auto;
+    }
+}
+
+/* -------------------------------------------
+    SECTION 4: HEADER SECTION (REVISED: SPLIT FOCUS BAR)
+------------------------------------------- */
+
+.app-header {
+    /* Use Flexbox for horizontal split layout */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1.5rem;
+    flex-shrink: 0;
+    
+    border-bottom: none; 
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.app-header::after {
+    content: none;
+}
+
+.main-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: 0.15em; 
+    color: var(--text-dark);
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    text-transform: uppercase;
+    /* Subtle text shadow using the accent color */
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.05), 0 0 5px var(--accent-tertiary);
+    flex-grow: 1; 
+    text-align: left; 
+}
+
+/* ... in Section 4: Header Section ... */
+
+.header-icon {
+    width: 2.2rem;
+    height: 2.2rem;
+    margin-right: 0.75rem;
+    /* This line correctly sets the color for the stroke and the SVG's 'currentColor' fill */
+    stroke: var(--accent-primary); 
+    animation: pulseGlow 5s infinite alternate ease-in-out; 
+}
+
+/* NEW ELEMENT: Status/Indicator Bar for the right side */
+.status-bar {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--accent-primary);
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-small);
+    background-color: var(--card-light);
+    box-shadow: 0 1px 5px var(--shadow-light);
+    /* Adding a vertical accent line for visual break */
+    border-left: 3px solid var(--accent-primary);
+    transition: all 0.3s ease;
+}
+
+/* Mobile Adjustments for Header */
+@media (max-width: 600px) {
+    .app-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    .main-title {
+        text-align: center;
+    }
+    .status-bar {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* -------------------------------------------
+    SECTION 5: PLAYER/DISPLAY CONTAINER
+------------------------------------------- */
+
+.player-container {
+    flex-grow: 1;
+    min-height: 0;
+    position: relative;
+    border-radius: var(--radius-main); 
+    overflow: hidden;
+    
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    
+    border: 1px solid var(--border-light);
+    background-color: #000; 
+    box-shadow: 0 4px 15px var(--shadow-light); 
+    transition: all 0.3s ease-out;
+}
+
+.player-container:hover {
+    transform: scale(1.005);
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 20px var(--shadow-hover); 
+}
+
+.media-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-color: #000;
+    border: none;
+}
+
+/* -------------------------------------------
+    SECTION 6: CONTROL PANEL STRUCTURE
+------------------------------------------- */
+
+.controls-panel {
+    padding: 1.5rem 2rem; 
+    background-color: var(--card-light);
+    border-radius: var(--radius-main);
+    box-shadow: 0 4px 15px var(--shadow-light);
+    border: 1px solid var(--border-light);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    flex-shrink: 0;
+    overflow-y: auto;
+}
+
+.control-columns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .control-columns {
+        grid-template-columns: 1.5fr 1fr 1.5fr; 
+        gap: 2rem;
+    }
+}
+
+.panel-title {
+    font-size: 0.95rem; 
+    font-weight: 600;
+    color: var(--text-dark); 
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 0.75rem;
+    position: relative;
+}
+
+.panel-title::before {
+    content: none; 
+}
+
+.control-group { 
+    padding-bottom: 0; 
+    margin-bottom: 0; 
+    border-bottom: none; 
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.source-controls { 
+    flex-direction:row; 
+    flex-wrap: wrap; 
+    gap:0.75rem; 
+}
+
+.source-controls .btn-source {
+    flex: 1 1 30%; 
+    min-width: 100px;
+}
+
+.renderer-settings { 
+    flex-direction: column; 
+    align-items: flex-start; 
+    justify-content: flex-start;
+    padding:0.5rem 0; 
+    border-bottom: none; 
+}
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0.25rem 0;
+}
+
+.setting-label { 
+    color: var(--text-muted); 
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+}
+
+.plugin-toggles { 
+    gap:0.5rem; 
+    padding:0.5rem 0; 
+}
+
+
+/* -------------------------------------------
+    SECTION 7: INTERACTIVE ELEMENTS (BUTTONS, INPUTS)
+------------------------------------------- */
+
+.btn-source {
+    padding:0.75rem;
+    font-size:0.9rem;
+    font-weight:600;
+    border-radius:var(--radius-small);
+    border: 1px solid var(--accent-primary);
+    background: var(--card-light); 
+    color:var(--accent-primary); 
+    cursor:pointer;
+    transition: all 0.2s ease;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+}
+
+.btn-source:hover {
+    background: var(--accent-primary); 
+    color: var(--card-light); 
+    box-shadow: 0 0 10px var(--shadow-hover);
+    transform: translateY(-1px);
+}
+
+.form-select {
+    background-color: var(--card-light);
+    border: 1px solid var(--border-light);
+    color: var(--text-dark); 
+    font-size: 0.9rem;
+    border-radius: var(--radius-small);
+    padding: 0.5rem 0.75rem;
+    appearance: none;
+    cursor: pointer;
+    text-align: right;
+    width: 50%;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    /* Custom chevron for select box - dark gray */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23707070'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 0.8em;
+}
+
+.form-select:hover, .form-select:focus { 
+    border-color: var(--accent-primary); 
+    outline: none; 
+    box-shadow: inset 0 0 5px rgba(127, 255, 0, 0.2);
+}
+
+.checkbox-label {
+    font-size: 0.9rem;
+    color: var(--text-dark); 
+    display:flex;
+    align-items:center;
+    padding:0.4rem 0.5rem; 
+    border-radius:var(--radius-small);
+    cursor:pointer;
+    transition:background-color 0.2s, border 0.2s;
+    border: 1px solid transparent;
+}
+
+.checkbox-label:hover { 
+    background-color: rgba(127, 255, 0, 0.08); 
+    border: 1px solid rgba(127, 255, 0, 0.3); 
+}
+
+.checkbox-label input[type="checkbox"] { 
+    margin-right:0.75rem; 
+    accent-color:var(--accent-primary); 
+    width:1.1em; 
+    height:1.1em; 
+    min-width:1.1em; 
+    border-radius: var(--radius-small); 
+    border: 1px solid var(--border-light); 
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* -------------------------------------------
+    SECTION 8: PLAYLIST/LIST ELEMENTS
+------------------------------------------- */
+
+.playlist-group { 
+    margin-top: 1rem;
+    flex-grow:1; 
+    min-height:150px; 
+    overflow-y:auto; 
+    background-color: var(--card-light); 
+    border:1px solid var(--border-light); 
+    border-radius:var(--radius-main); 
+    padding:0.75rem; 
+    display:flex; 
+    flex-direction:column; 
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05); 
+}
+
+.playlist-list { 
+    list-style:none; 
+    margin:0; 
+    padding:0; 
+    flex-grow:1; 
+    display:flex; 
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.playlist-list:empty::before {
+    content: "Load source data to populate the media queue.";
+    color: var(--text-placeholder); 
+    font-style: italic;
+    font-size: 0.85rem;
+    padding: 1rem;
+}
+
+.playlist-item { 
+    padding:0.5rem 0.6rem; 
+    cursor:pointer; 
+    border-radius:var(--radius-small); 
+    transition: background-color 0.2s ease, border-left 0.2s; 
+    border-left: 3px solid transparent; 
+    color: var(--text-muted); 
+}
+
+.playlist-item:hover { 
+    background-color: rgba(127, 255, 0, 0.08); 
+    border-left: 3px solid var(--accent-primary); 
+    color: var(--text-dark);
+}
+
+.playlist-item.active { 
+    background-color: rgba(127, 255, 0, 0.15); 
+    border-left: 3px solid var(--accent-primary); 
+    font-weight: 600;
+    color: var(--accent-primary); 
+    box-shadow: inset 2px 0 10px rgba(127, 255, 0, 0.1);
+}
+
+/* -------------------------------------------
+    SECTION 9: OVERLAYS AND UTILITIES
+------------------------------------------- */
+
+#watermark-overlay, #subtitle-overlay { 
+    pointer-events:none; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
