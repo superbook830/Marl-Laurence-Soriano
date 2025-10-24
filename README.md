@@ -66,13 +66,13 @@ Because the Service Worker and media streaming APIs require an HTTP context,
 # Navigate to the project folder
 cd ModularMediaStreamingSuite
 
-# Run a local web server on port 8080
-python -m http.server 8080
+# Run a local web server on port 3000
+python -m http.server 3000
 ```
 
 Then open your browser to:
 
-👉 http://localhost:8080
+👉 http://localhost:3000
 
 ---
 
@@ -82,12 +82,12 @@ If you have Node.js installed:
 
 ```bash
 npm install -g http-server
-http-server . -p 8080
+http-server . -p 3000
 ```
 
 Then open:
 
-👉 http://localhost:8080
+👉 http://localhost:3000
 
 ---
 
